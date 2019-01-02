@@ -24,7 +24,7 @@ public class SignController {
 	private SignService signService;
 
 	@PostMapping("/in")
-	public Object signInPOST(User user, HttpSession session) {
+	public Object signInPOST(User user) {
 
 		log.info(user);
 
@@ -43,6 +43,13 @@ public class SignController {
 		result.put("succ", succ);
 
 		return result;
+	}
+
+	@RequestMapping("/out")
+	public Object signOut(HttpSession session) {
+		session.invalidate();
+
+		return null;
 	}
 
 }
