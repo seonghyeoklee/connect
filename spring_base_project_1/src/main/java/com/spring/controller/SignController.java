@@ -45,4 +45,11 @@ public class SignController {
 		return result;
 	}
 
+	@RequestMapping("/out")
+	public Object signOut(HttpSession session) {
+		session.invalidate();
+
+		return null;
+	}
+
 }
