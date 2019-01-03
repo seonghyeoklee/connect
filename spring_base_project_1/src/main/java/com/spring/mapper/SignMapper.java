@@ -10,7 +10,7 @@ public interface SignMapper {
 
 	public User selectUser(User user);
 
-	public void autoLogin(Map<String, Object> map);
+	public void updateSession(Map<String, Object> map);
 
 	public User checkUserWithSessionKey(String sessionkey);
 }

@@ -27,6 +27,7 @@ public class SampleTest {
 
 		User user = new User();
 		user.setName("newUser");
+		user.setPassword("newUser");
 
 		int insertCount = signMapper.insertUser(user);
 

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.google.gson.GsonBuilder;
 import com.spring.domain.User;
 import com.spring.service.SignService;
 
@@ -40,10 +41,14 @@ public class SignController {
 
 	@PostMapping("/in")
 	public String signIn(HttpSession session, User user, HttpServletResponse response) {
+
 		if(session.getAttribute("login") != null) {
 			session.removeAttribute("login");
 		}
-		System.out.println(user);
+
+		log.info(user);
+		System.out.println(new GsonBuilder().setPrettyPrinting().create().toJson(user));
+
 		String returnUrl = "";
 		User loginedUser = signService.signIn(user);
 
@@ -60,7 +65,7 @@ public class SignController {
 				response.addCookie(cookie);
 
 				Date sessionlimit = new Date(System.currentTimeMillis() + (1000 * amount));
-				signService.autoLogin(user.getName(), session.getId(), sessionlimit);
+				signService.updateSession(user.getName(), session.getId(), sessionlimit);
 			}
 		} else {
 			returnUrl = "/sign/login";
@@ -71,13 +76,19 @@ public class SignController {
 
 	@GetMapping("/out")
 	public String signOut(HttpSession session, HttpServletResponse response) {
-		session.invalidate();
+		log.info("logout");
+
+		User sessionUser = (User)session.getAttribute("login");
+		Date sessionlimit = new Date(System.currentTimeMillis());
+
+		signService.updateSession(sessionUser.getName(), "none",sessionlimit);
 
 		Cookie cookie = new Cookie("loginCookie", session.getId());
 		cookie.setPath("/");
 		cookie.setMaxAge(0);
 		response.addCookie(cookie);
 
+		session.invalidate();
 		return "redirect:/sign/login";
 	}
 
