@@ -6,10 +6,34 @@
 
 	<insert id="insertUser" useGeneratedKeys="true" keyProperty="idx">
 		insert into user(
-			name
+			name,
+			password
 		) values (
-			#{name}
+			#{name},
+			#{password}
 		)
 	</insert>
+	
+	<select id="selectUser" resultType="com.spring.domain.User">
+		select
+			idx,
+			name
+		from user
+		where name = #{name}
+		and password = #{password}
+	</select>
+	
+	<update id="autoLogin">
+		update user set
+			sessionkey = #{sessionkey},
+			sessionlimit = #{sessionlimit}
+		where name = #{name}
+	</update>
+	
+	<select id="checkUserWithSessionKey" resultType="com.spring.domain.User">
+		select * from user
+		where sessionkey = #{sessionkey}
+		and sessionlimit > now()
+	</select>
 	
 </mapper>
