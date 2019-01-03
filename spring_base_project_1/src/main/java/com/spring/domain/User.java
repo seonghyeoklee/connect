@@ -13,6 +13,8 @@ public class User {
 
 	private int idx;
 	private String name;
+	private String password;
 	private int state;
 	private Date createdAt;
+	private boolean userCookie;
 }
