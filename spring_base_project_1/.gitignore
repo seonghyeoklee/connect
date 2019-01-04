@@ -1,3 +1,7 @@
+git rm -r --cached .
+git add .
+git commit -m 'clear git cache'
+git push
 
 # Created by https://www.gitignore.io/api/java,eclipse
 # Edit at https://www.gitignore.io/?templates=java,eclipse
@@ -99,3 +103,4 @@ hs_err_pid*
 
 # End of https://www.gitignore.io/api/java,eclipse
 /target/
+
