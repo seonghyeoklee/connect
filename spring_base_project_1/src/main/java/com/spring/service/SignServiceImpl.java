@@ -36,13 +36,13 @@ public class SignServiceImpl implements SignService {
 	}
 
 	@Override
-	public void autoLogin(String name, String sessionkey, Date sessionlimit) {
+	public void updateSession(String name, String sessionkey, Date sessionlimit) {
 		Map<String, Object> map = new HashMap<>();
 		map.put("name", name);
 		map.put("sessionkey", sessionkey);
 		map.put("sessionlimit", sessionlimit);
 
-		signMapper.autoLogin(map);
+		signMapper.updateSession(map);
 	}
 
 }

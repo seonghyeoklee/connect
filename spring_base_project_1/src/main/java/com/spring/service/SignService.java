@@ -10,5 +10,6 @@ public interface SignService {
 
 	public User signIn(User user);
 
-	public void autoLogin(String name, String sessionkey, Date sessionlimit);
+	public void updateSession(String name, String sessionkey, Date sessionlimit);
+
 }

@@ -23,7 +23,7 @@
 		and password = #{password}
 	</select>
 	
-	<update id="autoLogin">
+	<update id="updateSession">
 		update user set
 			sessionkey = #{sessionkey},
 			sessionlimit = #{sessionlimit}
