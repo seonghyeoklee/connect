@@ -12,6 +12,15 @@ import org.springframework.web.util.WebUtils;
 import com.spring.domain.User;
 import com.spring.mapper.SignMapper;
 
+/**
+ * 프로그램 파일명 : LoginInterceptor.java
+ *
+ * 프로그램 설명 : 로그인시 세션과 쿠키를 이용하여 로그인 유무를 체크하는 인터셉터
+ *
+ * 작 성 자 : seong hyeok lee
+ *
+ * 작 성 일 : 2019. 1. 2.
+ */
 public class LoginInterceptor extends HandlerInterceptorAdapter{
 
 	@Autowired

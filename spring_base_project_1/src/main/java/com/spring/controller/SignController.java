@@ -18,6 +18,15 @@ import com.spring.service.SignService;
 
 import lombok.extern.log4j.Log4j;
 
+/**
+ * 프로그램 파일명 : SignController.java
+ *
+ * 프로그램 설명 : User의 회원가입, 로그인, 로그아웃 요청을 받아 처리하는 Controller
+ *
+ * 작 성 자 : seong hyeok lee
+ *
+ * 작 성 일 : 2019. 1. 2.
+ */
 @Controller
 @RequestMapping("/sign")
 @Log4j
@@ -31,14 +40,25 @@ public class SignController {
 
 	}
 
+	/**
+	 * 사용자 회원가입
+	 *
+	 * @param user
+	 */
 	@PostMapping("/up")
-	public String signUp(User user) {
-
+	public String signUp(User user){
 		signService.signUp(user);
 
 		return "redirect:/board/list";
 	}
 
+	/**
+	 * 사용자 로그인
+	 *
+	 * @param session
+	 * @param user
+	 * @param response
+	 */
 	@PostMapping("/in")
 	public String signIn(HttpSession session, User user, HttpServletResponse response) {
 
@@ -74,6 +94,12 @@ public class SignController {
 		return returnUrl;
 	}
 
+	/**
+	 * 사용자 로그아웃
+	 *
+	 * @param session
+	 * @param response
+	 */
 	@GetMapping("/out")
 	public String signOut(HttpSession session, HttpServletResponse response) {
 		log.info("logout");

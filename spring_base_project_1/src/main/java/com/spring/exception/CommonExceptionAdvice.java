@@ -9,6 +9,15 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 
 import lombok.extern.log4j.Log4j;
 
+/**
+ * 프로그램 파일명 : CommonExceptionAdvice.java
+ *
+ * 프로그램 설명 : 예외처리를 담당하는 클래스
+ *
+ * 작 성 자 : seong hyeok lee
+ *
+ * 작 성 일 : 2019. 1. 2.
+ */
 @ControllerAdvice
 @Log4j
 public class CommonExceptionAdvice {
