@@ -20,10 +20,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Post {
 
-	private String idx;
-	private String user_idx;
+	private int idx;
+	private int authorIdx;
 	private String title;
 	private String content;
-	private Date created_at;
-	private Date updated_at;
+	private int state;
+	private Date createdAt;
+	private Date updatedAt;
+
+	private User author;
+	private PostLike postLike;
 }
