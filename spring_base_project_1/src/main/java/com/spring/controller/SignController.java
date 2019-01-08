@@ -8,11 +8,11 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.google.gson.GsonBuilder;
+import com.spring.common.Constant;
 import com.spring.domain.User;
 import com.spring.service.SignService;
 
@@ -62,23 +62,22 @@ public class SignController {
 	@PostMapping("/in")
 	public String signIn(HttpSession session, User user, HttpServletResponse response) {
 
-		if(session.getAttribute("login") != null) {
-			session.removeAttribute("login");
+		if(session.getAttribute(Constant.SESSION_LOGIN_USER_IDX) != null) {
+			session.removeAttribute(Constant.SESSION_LOGIN_USER_IDX);
 		}
 
 		log.info(user);
-		System.out.println(new GsonBuilder().setPrettyPrinting().create().toJson(user));
 
 		String returnUrl = "";
 		User loginedUser = signService.signIn(user);
 
 		if(loginedUser != null) {
-			session.setAttribute("login", user);
+			session.setAttribute(Constant.SESSION_LOGIN_USER_IDX, user);
 			returnUrl = "redirect:/board/list";
 
 			if(user.isUserCookie()) {
 				int amount = 60 * 60 * 24 * 7;
-				Cookie cookie = new Cookie("loginCookie", session.getId());
+				Cookie cookie = new Cookie(Constant.COOKIE_LOGIN, session.getId());
 				cookie.setPath("/");
 				cookie.setMaxAge(amount);
 
@@ -100,16 +99,16 @@ public class SignController {
 	 * @param session
 	 * @param response
 	 */
-	@GetMapping("/out")
+	@RequestMapping(value = "/out", method = {RequestMethod.POST, RequestMethod.GET})
 	public String signOut(HttpSession session, HttpServletResponse response) {
 		log.info("logout");
 
-		User sessionUser = (User)session.getAttribute("login");
+		User sessionUser = (User)session.getAttribute(Constant.SESSION_LOGIN_USER_IDX);
 		Date sessionlimit = new Date(System.currentTimeMillis());
 
 		signService.updateSession(sessionUser.getName(), "none",sessionlimit);
 
-		Cookie cookie = new Cookie("loginCookie", session.getId());
+		Cookie cookie = new Cookie(Constant.COOKIE_LOGIN, session.getId());
 		cookie.setPath("/");
 		cookie.setMaxAge(0);
 		response.addCookie(cookie);
