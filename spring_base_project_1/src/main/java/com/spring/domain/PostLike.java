@@ -7,23 +7,21 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 프로그램 파일명 : User.java
+ * 프로그램 파일명 : PostLike.java
  *
- * 프로그램 설명 : 사용자 정보
+ * 프로그램 설명 : 게시물 좋아요 정보
  *
  * 작 성 자 : seong hyeok lee
  *
- * 작 성 일 : 2019. 1. 2.
+ * 작 성 일 : 2019. 1. 8.
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class PostLike {
 
-	private int idx;
-	private String name;
-	private String password;
-	private int state;
+	private int postIdx;
+	private int userIdx;
 	private Date createdAt;
-	private boolean userCookie;
+	private int likeCount;
 }

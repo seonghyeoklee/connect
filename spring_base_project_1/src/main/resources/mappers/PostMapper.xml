@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0/EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.mapper.PostMapper">
+
+	<resultMap type="com.spring.domain.Post" id="postResultMap">
+		<id property="idx" column="idx"/>
+		<result property="authorIdx" column="author_idx"/>
+		<result property="title" column="title"/>
+		<result property="content" column="content"/>
+		<result property="state" column="state"/>
+		<result property="createdAt" column="created_at"/>
+		<result property="updatedAt" column="updated_at"/>
+		
+		<association property="author" javaType="com.spring.domain.User">
+			<id property="idx" column="idx"/>
+			<result property="name" column="name"/>
+		</association>
+		
+		<association property="postLike" javaType="com.spring.domain.PostLike">
+			<result property="userIdx" column="user_idx"/>
+			<result property="likeCount" column="like_count"/>
+		</association>
+	</resultMap>
+
+	<select id="selectPostList" resultMap="postResultMap">
+		SELECT
+			p.idx,
+			p.title,
+			p.content,
+			p.state,
+			p.created_at,
+			p.updated_at,
+			p.author_idx,
+			pl.like_count,
+			u.name,
+			u.password
+		FROM post p
+		JOIN user u ON p.author_idx = u.idx
+		LEFT OUTER JOIN (
+			SELECT
+				post_idx,
+				count(*) AS like_count
+			FROM post_like
+			GROUP BY post_idx
+		) pl on pl.post_idx = p.idx
+		ORDER BY created_at DESC
+		LIMIT #{offset}, #{count}
+	</select>
+	
+	<insert id="insertPost" parameterType="com.spring.domain.Post">
+		INSERT INTO post (
+			author_idx,
+			title,
+			content
+		) VALUES (
+			#{author.idx},
+			#{title},
+			#{content}
+		)
+	</insert>
+	
+	<select id="selectPost" resultMap="postResultMap">
+		SELECT
+			idx,
+			author_idx,
+			title,
+			content,
+			state,
+			created_at,
+			updated_at
+		FROM post
+		WHERE idx = #{idx}
+	</select>
+	
+	<update id="updatePost">
+		UPDATE post SET
+			title = #{title},
+			content = #{content},
+			state = #{state},
+			updated_at = now()
+		WHERE idx = #{idx}
+	</update>
+	
+	<delete id="deletePost">
+		DELETE FROM post
+		where idx = #{idx}
+	</delete>
+	
+	<select id="selectPostLike" resultType="Integer">
+		SELECT
+			count(*)
+		FROM post_like
+		WHERE post_idx = #{idx}
+		GROUP BY post_idx
+	</select>
+	
+</mapper>
