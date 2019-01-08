@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import org.springframework.web.util.WebUtils;
 
+import com.spring.common.Constant;
 import com.spring.domain.User;
 import com.spring.mapper.SignMapper;
 
@@ -30,18 +31,18 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
 		HttpSession session = request.getSession();
-		Object obj = session.getAttribute("login");
+		Object obj = session.getAttribute(Constant.SESSION_LOGIN_USER_IDX);
 
 		if ( obj == null ){
 
-			Cookie loginCookie = WebUtils.getCookie(request, "loginCookie");
+			Cookie loginCookie = WebUtils.getCookie(request, Constant.COOKIE_LOGIN);
 			if(loginCookie != null) {
 				String sessionkey = loginCookie.getValue();
 
 				User user = signMapper.checkUserWithSessionKey(sessionkey);
 
 				if(user != null) {
-					session.setAttribute("login", user);
+					session.setAttribute(Constant.SESSION_LOGIN_USER_IDX, user);
 					return true;
 				}
 			}
