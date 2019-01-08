@@ -1,11 +1,16 @@
 package com.spring.exception;
 
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.NoHandlerFoundException;
+
+import com.google.gson.internal.LinkedTreeMap;
 
 import lombok.extern.log4j.Log4j;
 
@@ -39,5 +44,15 @@ public class CommonExceptionAdvice {
 		return "error_404";
 	}
 
+	@ExceptionHandler
+	@ResponseBody
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public Object handle(BadRequestException e) {
+		Map<String, Object> map = new LinkedTreeMap<>();
+		map.put("code", e.getCode());
+		map.put("msg", e.getMsg());
+
+		return map;
+	}
 
 }
