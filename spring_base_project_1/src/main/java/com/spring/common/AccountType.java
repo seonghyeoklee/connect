@@ -19,5 +19,4 @@ public enum AccountType {
 	public int getTypeCode() {
 		return typeCode;
 	}
-
 }
