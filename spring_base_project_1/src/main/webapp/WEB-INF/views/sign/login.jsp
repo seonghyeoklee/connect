@@ -10,8 +10,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-
+    
+    <!-- kakao -->
     <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width"/>
+    <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+    <!-- google -->
+    <meta name="google-signin-client_id" content="788806329174-viuqcvneor1o2g0glspvd03tfu2abmjb.apps.googleusercontent.com">
+
+    
     <title>SB Admin 2 - Bootstrap Admin Theme</title>
 
     <!-- Bootstrap Core CSS -->
@@ -32,8 +38,6 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
-	<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 </head>
 
 <body>
@@ -66,6 +70,8 @@
                         <form role="form" action="/sign/social" method="post" id="form">
                         	<div id="token"></div>
                         </form>
+                        
+                        <div class="g-signin2" data-onsuccess="onSignIn"></div>
                     </div>
                 </div>
             </div>
@@ -106,5 +112,40 @@
         });
       //]]>
     </script>
+    <script type="text/javascript">
+    function init(){
+    	gapi.load('auth2', function() {
+    		console.log("auth2");
+    		
+    		var googleAuth = gapi.auth2.init({
+    			client_id: '788806329174-viuqcvneor1o2g0glspvd03tfu2abmjb.apps.googleusercontent.com'
+    		});
+    		
+    		googleAuth.then(function(){
+    			console.log("googleAuth success");
+    			
+    			if(googleAuth.isSignedIn.get()){
+    				console.log("sign in");
+    			}else{
+    				console.log("sign out");
+    			}
+    			
+    		}, function(){
+    			console.log("googleAuth fail");
+    		});
+    	});
+    }
+    
+    function onSignIn(googleUser) {
+    	  var profile = googleUser.getBasicProfile();
+    	  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+    	  console.log('Name: ' + profile.getName());
+    	  console.log('Image URL: ' + profile.getImageUrl());
+    	  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+    	}
+    
+    </script>
+    
+    <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
 </body>
 </html>

@@ -12,7 +12,9 @@ import com.spring.common.Constant;
 import com.spring.domain.KakaoResultJson;
 import com.spring.domain.User;
 import com.spring.domain.UserAuth;
+import com.spring.exception.AccessDeniedException;
 import com.spring.mapper.SignMapper;
+import com.spring.mapper.UserAuthMapper;
 import com.spring.util.Kakao;
 import com.spring.util.Sha256;
 
@@ -21,6 +23,9 @@ public class SignServiceImpl implements SignService {
 
 	@Autowired
 	private SignMapper signMapper;
+
+	@Autowired
+	private UserAuthMapper userAuthMapper;
 
 	@Override
 	public User signUp(User user) {
@@ -44,9 +49,31 @@ public class SignServiceImpl implements SignService {
 			case Constant.ACCOUNT_TYPE_KAKAO:
 				String access_token = userAuth.getCredential();
 				KakaoResultJson kakaoResultJson = Kakao.getUserInfo(access_token);
+
 				System.out.println(new GsonBuilder().setPrettyPrinting().create().toJson(kakaoResultJson));
 
-				break;
+				UserAuth auth = new UserAuth();
+				auth.setType(Constant.ACCOUNT_TYPE_KAKAO);
+				auth.setCredential(access_token);
+				auth.setIdentification(""+kakaoResultJson.getId());
+
+				if(userAuthMapper.selectUserAuth(auth) != null) {
+					throw new AccessDeniedException();
+				}
+
+				User user = new User();
+				user.setName(kakaoResultJson.getProperties().getNickname());
+
+				int insertCount = signMapper.insertUser(user);
+
+				if(insertCount == 0) {
+					return null;
+				}
+
+				auth.setUserIdx(user.getIdx());
+				userAuthMapper.insertUserAuth(auth);
+
+				return user;
 
 			case Constant.ACCOUNT_TYPE_FACEBOOK:
 				break;

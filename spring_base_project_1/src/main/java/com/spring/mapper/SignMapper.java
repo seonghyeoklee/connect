@@ -13,4 +13,5 @@ public interface SignMapper {
 	public void updateSession(Map<String, Object> map);
 
 	public User checkUserWithSessionKey(String sessionkey);
+
 }
