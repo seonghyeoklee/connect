@@ -127,14 +127,14 @@
                         <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#"><i class="fa fa-user fa-fw"></i><c:if test="${!empty login }"> ${login.name }</c:if><c:if test="${empty login }"> User profile</c:if></a>
+                        <li><a href="#"><i class="fa fa-user fa-fw"></i><c:if test="${!empty LOGIN_USER_IDX }"> ${LOGIN_USER_IDX.name }</c:if><c:if test="${empty LOGIN_USER_IDX }"> User profile</c:if></a>
                         </li>
                         <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
                         <li>
 	                        <c:choose>
-	                        	<c:when test="${!empty login }"><a href="/sign/out"><i class="fa fa-sign-out fa-fw"></i>Logout</a></c:when>
+	                        	<c:when test="${!empty LOGIN_USER_IDX }"><a href="/sign/out"><i class="fa fa-sign-out fa-fw"></i>Logout</a></c:when>
 	                        	<c:otherwise><a href="/sign/login"><i class="fa fa-sign-out fa-fw"></i>Login</a></c:otherwise>
 	                        </c:choose>
                         </li>

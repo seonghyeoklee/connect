@@ -6,6 +6,14 @@ public class Constant {
 
 	public final static String COOKIE_LOGIN = "COOKIE_LOGIN";
 
-	public final static String KAKAO_ADMIN_KEY = "9d494a36270630d16f3db17fb25ffa1c";
+	public final static String KAKAO_ADMIN_KEY = "e0a6927ec4209b903829c07693cf55a1";
+
+	public final static int ACCOUNT_TYPE_EMAIL = 1;
+
+	public final static int ACCOUNT_TYPE_GOOGLE = 2;
+
+	public final static int ACCOUNT_TYPE_KAKAO = 3;
+
+	public final static int ACCOUNT_TYPE_FACEBOOK = 4;
 
 }

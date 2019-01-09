@@ -3,10 +3,13 @@ package com.spring.service;
 import java.util.Date;
 
 import com.spring.domain.User;
+import com.spring.domain.UserAuth;
 
 public interface SignService {
 
-	public int signUp(User user);
+	public User signUp(User user);
+
+	public User socialSignUp(UserAuth userAuth);
 
 	public User signIn(User user);
 

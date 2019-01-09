@@ -7,8 +7,13 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.gson.GsonBuilder;
+import com.spring.common.Constant;
+import com.spring.domain.KakaoResultJson;
 import com.spring.domain.User;
+import com.spring.domain.UserAuth;
 import com.spring.mapper.SignMapper;
+import com.spring.util.Kakao;
 import com.spring.util.Sha256;
 
 @Service
@@ -18,12 +23,39 @@ public class SignServiceImpl implements SignService {
 	private SignMapper signMapper;
 
 	@Override
-	public int signUp(User user) {
+	public User signUp(User user) {
 
 		String password = Sha256.encrypt(user.getPassword());
 		user.setPassword(password);
 
-		return signMapper.insertUser(user);
+		signMapper.insertUser(user);
+		return user;
+	}
+
+	@Override
+	public User socialSignUp(UserAuth userAuth) {
+		switch (userAuth.getType()) {
+			case Constant.ACCOUNT_TYPE_EMAIL:
+				break;
+
+			case Constant.ACCOUNT_TYPE_GOOGLE:
+				break;
+
+			case Constant.ACCOUNT_TYPE_KAKAO:
+				String access_token = userAuth.getCredential();
+				KakaoResultJson kakaoResultJson = Kakao.getUserInfo(access_token);
+				System.out.println(new GsonBuilder().setPrettyPrinting().create().toJson(kakaoResultJson));
+
+				break;
+
+			case Constant.ACCOUNT_TYPE_FACEBOOK:
+				break;
+
+			default:
+				break;
+		}
+
+		return null;
 	}
 
 	@Override

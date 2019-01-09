@@ -11,6 +11,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
+    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width"/>
     <title>SB Admin 2 - Bootstrap Admin Theme</title>
 
     <!-- Bootstrap Core CSS -->
@@ -32,6 +33,7 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+	<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 </head>
 
 <body>
@@ -45,21 +47,24 @@
                     </div>
                     <div class="panel-body">
                         <form role="form" action="/sign/in" method="post">
-                            <fieldset>
-                                <div class="form-group">
-                                    <input class="form-control" placeholder="E-mail" name="name" autofocus>
-                                </div>
-                                <div class="form-group">
-                                    <input class="form-control" placeholder="Password" name="password" type="password" value="">
-                                </div>
-                                <div class="checkbox">
-                                    <label>
-                                        <input name="userCookie" type="checkbox">Remember Me
-                                    </label>
-                                </div>
-                                <!-- Change this to a button or input when using this as a form -->
-                                <button type="submit" class="btn btn-lg btn-success btn-block">Login</button>
-                            </fieldset>
+                               <div class="form-group">
+                                   <input class="form-control" placeholder="E-mail" name="name" autofocus>
+                               </div>
+                               <div class="form-group">
+                                   <input class="form-control" placeholder="Password" name="password" type="password" value="">
+                               </div>
+                               <div class="checkbox">
+                                   <label>
+                                       <input name="userCookie" type="checkbox">Remember Me
+                                   </label>
+                               </div>
+                               <!-- Change this to a button or input when using this as a form -->
+                               <div class="form-group"><button type="submit" class="btn btn-lg btn-success btn-block">Login</button></div>
+                                <a id="kakao-login-btn"></a>
+                                <a href="http://developers.kakao.com/logout"></a>
+                        </form>
+                        <form role="form" action="/sign/social" method="post" id="form">
+                        	<div id="token"></div>
                         </form>
                     </div>
                 </div>
@@ -78,7 +83,28 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="/resources/dist/js/sb-admin-2.js"></script>
-
+    
+    <script type='text/javascript'>
+      //<![CDATA[
+        // 사용할 앱의 JavaScript 키를 설정해 주세요.
+        Kakao.init('1a13f4981bdf4963532f1b66e10cb0e4');
+        // 카카오 로그인 버튼을 생성합니다.
+        Kakao.Auth.createLoginButton({
+          container: '#kakao-login-btn',
+          success: function(authObj) {
+            console.log(JSON.stringify(authObj));
+            
+            var token = authObj.access_token;
+            var str = "<input type='hidden' name='credential' value='" + token + "'>";
+            
+            $("#token").append(str);
+            $("#form").submit();
+          },
+          fail: function(err) {
+        	  console.log(JSON.stringify(err));
+          }
+        });
+      //]]>
+    </script>
 </body>
-
 </html>
