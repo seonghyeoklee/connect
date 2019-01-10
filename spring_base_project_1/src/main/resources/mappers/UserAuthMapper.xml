@@ -10,17 +10,21 @@
 		<result property="credential" column="credential"/>
 		<result property="type" column="type"/>
 		<result property="state" column="state"/>
-		<association property="user" column="user_idx" javaType="com.spring.domain.User" select="selectUser"></association>
+		
+		<association property="user" javaType="com.spring.domain.User">
+			<result property="name" column="name"/>
+		</association>
 	</resultMap>
 	
-	<select id="selectUser" resultType="com.spring.domain.User">
-		SELECT * FROM user WHERE idx = #{idx}
-	</select>
-
 	<select id="selectUserAuth" resultMap="userAuthResultMap">
 		SELECT
-			*
-		FROM user_auth
+			a.idx,
+			a.identification,
+			a.credential,
+			a.type,
+			u.name
+		FROM user_auth a
+		JOIN user u ON u.idx = a.user_idx
 		WHERE type = #{type}
 		AND identification = #{identification}
 	</select>

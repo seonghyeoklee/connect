@@ -1,42 +1,58 @@
 package com.spring.util;
 
-import java.util.Collections;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 
-import com.google.api.client.auth.openidconnect.IdToken.Payload;
+import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
+import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import com.spring.domain.GoogleResultJson;
 
+import lombok.extern.log4j.Log4j;
+
+@Log4j
 public class GoogleAuth {
 
-	public final static String WEB_APPLICATION_TYPE_CLIENT_ID = "788806329174-6aufaqsdku9p51avh129kkusgk9i1v0t.apps.googleusercontent.com";
+	public static GoogleResultJson getPayload(String authResult) throws FileNotFoundException, IOException {
 
+		//파일경로
+		String CLIENT_SECRET_FILE = "C:\\client_secret_788806329174-6aufaqsdku9p51avh129kkusgk9i1v0t.apps.googleusercontent.com.json";
 
-	public static Payload getPayload(String token){
+		GoogleClientSecrets clientSecrets =
+			GoogleClientSecrets.load(
+					JacksonFactory.getDefaultInstance(), new FileReader(CLIENT_SECRET_FILE));
+		GoogleTokenResponse tokenResponse = new GoogleAuthorizationCodeTokenRequest(
+				new NetHttpTransport(),
+				JacksonFactory.getDefaultInstance(),
+				"https://www.googleapis.com/oauth2/v4/token",
+				clientSecrets.getDetails().getClientId(),
+				clientSecrets.getDetails().getClientSecret(),
+				authResult,
+				"http://localhost:8080")	.execute();
 
-	    	GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(),new JacksonFactory())
-	    			.setAudience(Collections.singletonList(WEB_APPLICATION_TYPE_CLIENT_ID))
-	    			.build();
-	    	try{
-	    		GoogleIdToken idToken = verifier.verify(token);
-	    		if(idToken.verify(verifier)) {
-		    		return idToken.getPayload();
-	    		}
-	    	}catch (Exception e) {
-			e.printStackTrace();
-		}
-	    	return null;
-    }
+		GoogleIdToken idToken = tokenResponse.parseIdToken();
+		GoogleIdToken.Payload payload = idToken.getPayload();
 
-	public static String getId(Payload payload){
-		return payload.getSubject();
-	}
+		String userId = payload.getSubject();
+		String email = payload.getEmail();
+		boolean emailVerified = Boolean.valueOf(payload.getEmailVerified());
+		String name = (String) payload.get("name");
+		String pictureUrl = (String) payload.get("picture");
+		String locale = (String) payload.get("locale");
 
-	public static String getEmail(Payload payload){
-		Object o = payload.get("email");
-		if( o instanceof String )
-			return (String)o;
-		return null;
+		GoogleResultJson googleResultJson = new GoogleResultJson();
+
+		googleResultJson.setUserId(userId);
+		googleResultJson.setEmail(email);
+		googleResultJson.setEmailVerified(emailVerified);
+		googleResultJson.setName(name);
+		googleResultJson.setPictureUrl(pictureUrl);
+		googleResultJson.setLocale(locale);
+
+		return googleResultJson;
 	}
 }

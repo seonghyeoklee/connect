@@ -12,7 +12,6 @@ import com.spring.common.Constant;
 import com.spring.domain.KakaoResultJson;
 import com.spring.domain.User;
 import com.spring.domain.UserAuth;
-import com.spring.exception.AccessDeniedException;
 import com.spring.mapper.SignMapper;
 import com.spring.mapper.UserAuthMapper;
 import com.spring.util.Kakao;
@@ -57,12 +56,13 @@ public class SignServiceImpl implements SignService {
 				auth.setCredential(access_token);
 				auth.setIdentification(""+kakaoResultJson.getId());
 
-				if(userAuthMapper.selectUserAuth(auth) != null) {
+				/*if(userAuthMapper.selectUserAuth(auth) != null) {
 					throw new AccessDeniedException();
-				}
+				}*/
 
 				User user = new User();
 				user.setName(kakaoResultJson.getProperties().getNickname());
+				user.setPassword("0");
 
 				int insertCount = signMapper.insertUser(user);
 
