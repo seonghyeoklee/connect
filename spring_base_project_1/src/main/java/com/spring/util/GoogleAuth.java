@@ -32,7 +32,7 @@ public class GoogleAuth {
 				clientSecrets.getDetails().getClientId(),
 				clientSecrets.getDetails().getClientSecret(),
 				authResult,
-				"http://localhost:8080")	.execute();
+				"http://localhost:8080").execute();
 
 		GoogleIdToken idToken = tokenResponse.parseIdToken();
 		GoogleIdToken.Payload payload = idToken.getPayload();
