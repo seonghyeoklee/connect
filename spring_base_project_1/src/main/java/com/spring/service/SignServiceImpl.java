@@ -12,6 +12,7 @@ import com.spring.common.Constant;
 import com.spring.domain.KakaoResultJson;
 import com.spring.domain.User;
 import com.spring.domain.UserAuth;
+import com.spring.domain.UserSignParam;
 import com.spring.mapper.SignMapper;
 import com.spring.mapper.UserAuthMapper;
 import com.spring.util.Kakao;
@@ -37,8 +38,9 @@ public class SignServiceImpl implements SignService {
 	}
 
 	@Override
-	public User socialSignUp(UserAuth userAuth) {
-		switch (userAuth.getType()) {
+	public User socialSignUp(UserSignParam param) {
+
+		switch (param.getType()) {
 			case Constant.ACCOUNT_TYPE_EMAIL:
 				break;
 
@@ -46,13 +48,13 @@ public class SignServiceImpl implements SignService {
 				break;
 
 			case Constant.ACCOUNT_TYPE_KAKAO:
-				String access_token = userAuth.getCredential();
+				String access_token = param.getCredential();
 				KakaoResultJson kakaoResultJson = Kakao.getUserInfo(access_token);
 
 				System.out.println(new GsonBuilder().setPrettyPrinting().create().toJson(kakaoResultJson));
 
 				UserAuth auth = new UserAuth();
-				auth.setType(Constant.ACCOUNT_TYPE_KAKAO);
+				auth.setType(3);
 				auth.setCredential(access_token);
 				auth.setIdentification(""+kakaoResultJson.getId());
 

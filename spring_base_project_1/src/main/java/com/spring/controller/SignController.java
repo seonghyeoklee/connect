@@ -15,13 +15,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.GsonBuilder;
 import com.spring.common.Constant;
 import com.spring.domain.GoogleResultJson;
 import com.spring.domain.User;
-import com.spring.domain.UserAuth;
+import com.spring.domain.UserSignParam;
 import com.spring.resolver.SessionLogin;
 import com.spring.service.SignService;
 import com.spring.util.GoogleAuth;
@@ -93,10 +94,13 @@ public class SignController {
 	 * @param userAuth
 	 */
 	@PostMapping("/social")
-	public String socialSignUp(UserAuth userAuth){
-		log.info(userAuth.getCredential());
-		userAuth.setType(3);
-		signService.socialSignUp(userAuth);
+	public String socialSignUp(@RequestParam int type, @RequestParam String identification, @RequestParam(required = false) String credential){
+		UserSignParam param = new UserSignParam();
+		param.setType(type);
+		param.setIdentification(identification);
+		param.setCredential(credential);
+
+		signService.socialSignUp(param);
 
 		return "redirect:/board/list";
 	}
@@ -112,7 +116,7 @@ public class SignController {
 	public String signIn(HttpSession session, User user, HttpServletResponse response, @SessionLogin Integer userIdx) {
 
 		if(userIdx != null) {
-			session.removeAttribute(Constant.SESSION_LOGIN_USER_IDX);
+			session.removeAttribute(Constant.SESSION_KEY_LOGIN_USER_IDX);
 		}
 
 		System.out.println(new GsonBuilder().setPrettyPrinting().create().toJson(user));
@@ -121,7 +125,7 @@ public class SignController {
 		User loginedUser = signService.signIn(user);
 
 		if(loginedUser != null) {
-			session.setAttribute(Constant.SESSION_LOGIN_USER_IDX, user);
+			session.setAttribute(Constant.SESSION_KEY_LOGIN_USER_IDX, user);
 			returnUrl = "redirect:/board/list";
 
 			if(user.isUserCookie()) {
@@ -152,7 +156,7 @@ public class SignController {
 	public String signOut(HttpSession session, HttpServletResponse response) {
 		log.info("logout");
 
-		User sessionUser = (User)session.getAttribute(Constant.SESSION_LOGIN_USER_IDX);
+		User sessionUser = (User)session.getAttribute(Constant.SESSION_KEY_LOGIN_USER_IDX);
 		Date sessionlimit = new Date(System.currentTimeMillis());
 		System.out.println(sessionUser);
 

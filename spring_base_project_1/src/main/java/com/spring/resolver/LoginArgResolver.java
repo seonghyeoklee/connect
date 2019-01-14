@@ -26,7 +26,7 @@ public class LoginArgResolver implements HandlerMethodArgumentResolver{
 		HttpServletRequest request = (HttpServletRequest)arg2.getNativeRequest();
 		HttpSession session = request.getSession();
 
-		Integer userIdx = (Integer) session.getAttribute(Constant.SESSION_LOGIN_USER_IDX);
+		Integer userIdx = (Integer) session.getAttribute(Constant.SESSION_KEY_LOGIN_USER_IDX);
 
 		return userIdx;
 	}
