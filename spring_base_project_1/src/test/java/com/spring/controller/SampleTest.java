@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.spring.domain.User;
+import com.google.gson.GsonBuilder;
+import com.spring.domain.KakaoResultJson;
 import com.spring.mapper.SignMapper;
+import com.spring.util.Kakao;
 
 import lombok.extern.log4j.Log4j;
 
@@ -25,13 +27,8 @@ public class SampleTest {
 	@Test
 	public void test(){
 
-		User user = new User();
-		user.setName("newUser");
-		user.setPassword("newUser");
+		KakaoResultJson k = Kakao.getUserInfo("NgSpmL8COP7NL8x0_JnJCbDHYfIzNKf8uH5eDwopdtYAAAFoMcMQwg");
+		System.out.println(new GsonBuilder().setPrettyPrinting().create().toJson(k));
 
-		int insertCount = signMapper.insertUser(user);
-
-		log.info("insertCount : " + insertCount);
-		log.info("user.getIdx() : " + user.getIdx());
 	}
 }
