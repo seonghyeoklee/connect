@@ -32,4 +32,10 @@
 		</interceptor>
 	</interceptors>
 	
+	<annotation-driven>
+		<argument-resolvers>
+			<beans:bean class="com.spring.resolver.LoginArgResolver"></beans:bean>
+		</argument-resolvers>
+	</annotation-driven>
+	
 </beans:beans>

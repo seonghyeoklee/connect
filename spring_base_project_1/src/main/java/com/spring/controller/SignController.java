@@ -22,6 +22,7 @@ import com.spring.common.Constant;
 import com.spring.domain.GoogleResultJson;
 import com.spring.domain.User;
 import com.spring.domain.UserAuth;
+import com.spring.resolver.SessionLogin;
 import com.spring.service.SignService;
 import com.spring.util.GoogleAuth;
 
@@ -51,6 +52,11 @@ public class SignController {
 
 	@RequestMapping("/google")
 	public void google() {
+
+	}
+
+	@RequestMapping("/facebook")
+	public void facebook() {
 
 	}
 
@@ -103,13 +109,12 @@ public class SignController {
 	 * @param response
 	 */
 	@PostMapping("/in")
-	public String signIn(HttpSession session, User user, HttpServletResponse response) {
+	public String signIn(HttpSession session, User user, HttpServletResponse response, @SessionLogin Integer userIdx) {
 
-		if(session.getAttribute(Constant.SESSION_LOGIN_USER_IDX) != null) {
+		if(userIdx != null) {
 			session.removeAttribute(Constant.SESSION_LOGIN_USER_IDX);
 		}
 
-		log.info(user);
 		System.out.println(new GsonBuilder().setPrettyPrinting().create().toJson(user));
 
 		String returnUrl = "";
