@@ -15,13 +15,26 @@
 				client_id: '788806329174-6aufaqsdku9p51avh129kkusgk9i1v0t.apps.googleusercontent.com'
 			});
 		});
+		
+		var signinBtnWidth = 400;
+		
+		gapi.signin2.render('my-signin2', {
+			'scope': 'profile email',
+			'width': signinBtnWidth,
+			'height': 50,
+			'longtitle': true,
+			'theme': 'dark'
+		});
+		
+		$("#my-signin2").css({"width": signinBtnWidth+"px"});
 	}
 </script>
 </head>
 <body>
-	<button id="signinButton">Sign in with Google</button>
+<div id="my-signin2"></div>
+	
 	<script type="text/javascript">
-		$('#signinButton').click(function() {
+		$('#my-signin2').click(function() {
 			auth2.grantOfflineAccess().then(signInCallback);
 		});
 	</script>
@@ -33,7 +46,7 @@
 		if (authResult['code']) {
 			console.log("authResult['code'] : " + authResult['code']);
 			
-			$.ajax({
+			/* $.ajax({
 				type: 'POST',
 				url: '/sign/google',
 				headers: {
@@ -45,7 +58,7 @@
 				},
 				processData: true,
 				data: {"authResult":authResult['code']}
-			});
+			}); */
 		} else {
 			console.log("error");
 		}
