@@ -68,7 +68,7 @@ public class SignController {
 
 		//X-Requested-With 존재하지 않을 경우 요청은 위조되어 있을 수 있음
 		if (request.getHeader("X-Requested-With") == null) {
-				return null;
+			return null;
 		}
 
 		GoogleResultJson googleResultJson = GoogleAuth.getPayload(authResult);

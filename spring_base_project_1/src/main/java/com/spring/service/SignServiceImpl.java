@@ -8,14 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.GsonBuilder;
-import com.spring.common.Constant;
+import com.spring.common.AccountType;
 import com.spring.domain.KakaoResultJson;
 import com.spring.domain.User;
 import com.spring.domain.UserAuth;
 import com.spring.domain.UserSignParam;
+import com.spring.exception.AccessDeniedException;
 import com.spring.mapper.SignMapper;
 import com.spring.mapper.UserAuthMapper;
 import com.spring.util.Kakao;
+import com.spring.util.MailUtil;
 import com.spring.util.Sha256;
 
 @Service
@@ -39,15 +41,28 @@ public class SignServiceImpl implements SignService {
 
 	@Override
 	public User socialSignUp(UserSignParam param) {
+		AccountType accountType;
 
-		switch (param.getType()) {
-			case Constant.ACCOUNT_TYPE_EMAIL:
+		accountType = AccountType.get(param.getType()).get();
+
+		switch (accountType) {
+			case ACCOUNT_TYPE_EMAIL:
+				String fromName = "스프링";
+				String to = "dltjdgur327@naver.com";
+				String title = "[스프링] 이메일 주소 확인 요청";
+
+				String content = "<h2> 메일인증 </h2><a href='http://localhost:8080/v1/sign/emailAuth'>email 인증확인</a>";
+
+				MailUtil mailUtil = new MailUtil();
+				mailUtil.send(fromName, to, title, content);
+				//메일 인증 후 가입 프로세스 추가
+
+				return null;
+
+			case ACCOUNT_TYPE_GOOGLE:
 				break;
 
-			case Constant.ACCOUNT_TYPE_GOOGLE:
-				break;
-
-			case Constant.ACCOUNT_TYPE_KAKAO:
+			case ACCOUNT_TYPE_KAKAO:
 				String access_token = param.getCredential();
 				KakaoResultJson kakaoResultJson = Kakao.getUserInfo(access_token);
 
@@ -58,9 +73,9 @@ public class SignServiceImpl implements SignService {
 				auth.setCredential(access_token);
 				auth.setIdentification(""+kakaoResultJson.getId());
 
-				/*if(userAuthMapper.selectUserAuth(auth) != null) {
+				if(userAuthMapper.selectUserAuth(auth) != null) {
 					throw new AccessDeniedException();
-				}*/
+				}
 
 				User user = new User();
 				user.setName(kakaoResultJson.getProperties().getNickname());
@@ -77,7 +92,7 @@ public class SignServiceImpl implements SignService {
 
 				return user;
 
-			case Constant.ACCOUNT_TYPE_FACEBOOK:
+			case ACCOUNT_TYPE_FACEBOOK:
 				break;
 
 			default:

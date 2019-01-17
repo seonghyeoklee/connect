@@ -1,5 +1,8 @@
 package com.spring.common;
 
+import java.util.Arrays;
+import java.util.Optional;
+
 public enum AccountType {
 
 	ACCOUNT_TYPE_EMAIL(1),
@@ -10,14 +13,18 @@ public enum AccountType {
 
 	ACCOUNT_TYPE_FACEBOOK(4);
 
-	private final int typeCode;
-
-	AccountType(int typeCode){
-		this.typeCode = typeCode;
+	public static Optional<AccountType> get(final int intValue){
+		return Arrays.stream(values()).filter(at->at.intValue() == intValue).findFirst();
 	}
 
-	public int getTypeCode() {
-		return typeCode;
+	private int value;
+
+	AccountType(int value) {
+		this.value = value;
+	}
+
+	public int intValue() {
+		return value;
 	}
 
 }
