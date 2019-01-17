@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.google.gson.GsonBuilder;
 import com.spring.common.AccountType;
+import com.spring.domain.GoogleResultJson;
 import com.spring.domain.KakaoResultJson;
 import com.spring.domain.User;
 import com.spring.domain.UserAuth;
@@ -16,6 +17,7 @@ import com.spring.domain.UserSignParam;
 import com.spring.exception.AccessDeniedException;
 import com.spring.mapper.SignMapper;
 import com.spring.mapper.UserAuthMapper;
+import com.spring.util.GoogleAuth;
 import com.spring.util.Kakao;
 import com.spring.util.MailUtil;
 import com.spring.util.Sha256;
@@ -60,7 +62,15 @@ public class SignServiceImpl implements SignService {
 				return null;
 
 			case ACCOUNT_TYPE_GOOGLE:
-				break;
+				String code = param.getCredential();
+
+				try {
+					GoogleResultJson googleResultJson = GoogleAuth.getPayload(code);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				return null;
 
 			case ACCOUNT_TYPE_KAKAO:
 				String access_token = param.getCredential();
