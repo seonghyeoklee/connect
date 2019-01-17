@@ -31,7 +31,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
 		HttpSession session = request.getSession();
-		Object obj = session.getAttribute(Constant.SESSION_KEY_LOGIN_USER_IDX);
+		Object obj = session.getAttribute(Constant.SESSION_LOGIN_USER_IDX);
 
 		if ( obj == null ){
 
@@ -42,7 +42,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
 				User user = signMapper.checkUserWithSessionKey(sessionkey);
 
 				if(user != null) {
-					session.setAttribute(Constant.SESSION_KEY_LOGIN_USER_IDX, user);
+					session.setAttribute(Constant.SESSION_LOGIN_USER_IDX, user);
 					return true;
 				}
 			}
