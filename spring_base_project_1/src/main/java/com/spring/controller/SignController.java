@@ -46,17 +46,17 @@ public class SignController {
 	@Autowired
 	private SignService signService;
 
-	@RequestMapping("/login")
+	@GetMapping("/login")
 	public void login() {
 
 	}
 
-	@RequestMapping("/google")
+	@GetMapping("/google")
 	public void google() {
 
 	}
 
-	@RequestMapping("/facebook")
+	@GetMapping("/facebook")
 	public void facebook() {
 
 	}
