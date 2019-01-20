@@ -38,4 +38,8 @@
 		</argument-resolvers>
 	</annotation-driven>
 	
+	<beans:bean class="com.spring.config.SwaggerConfig"></beans:bean>
+	
+	<beans:bean class="com.spring.config.WebAppConfig"></beans:bean>
+	
 </beans:beans>
