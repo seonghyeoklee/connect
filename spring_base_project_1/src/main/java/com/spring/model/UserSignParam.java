@@ -1,4 +1,4 @@
-package com.spring.domain;
+package com.spring.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

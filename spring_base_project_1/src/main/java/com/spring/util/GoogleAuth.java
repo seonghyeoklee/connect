@@ -10,7 +10,7 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
-import com.spring.domain.GoogleResultJson;
+import com.spring.model.GoogleResultJson;
 
 import lombok.extern.log4j.Log4j;
 

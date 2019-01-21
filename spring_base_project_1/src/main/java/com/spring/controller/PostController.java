@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.internal.LinkedTreeMap;
-import com.spring.domain.Post;
+import com.spring.model.Post;
 import com.spring.service.PostService;
 
 import lombok.extern.log4j.Log4j;

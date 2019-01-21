@@ -10,8 +10,8 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import org.springframework.web.util.WebUtils;
 
 import com.spring.common.Constant;
-import com.spring.domain.User;
 import com.spring.mapper.SignMapper;
+import com.spring.model.User;
 
 /**
  * 프로그램 파일명 : LoginInterceptor.java

@@ -6,8 +6,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.spring.domain.Post;
 import com.spring.mapper.PostMapper;
+import com.spring.model.Post;
 
 @Service
 public class PostServiceImpl implements PostService {

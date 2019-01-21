@@ -2,7 +2,7 @@ package com.spring.mapper;
 
 import java.util.Map;
 
-import com.spring.domain.User;
+import com.spring.model.User;
 
 public interface SignMapper {
 

@@ -1,7 +1,7 @@
 package com.spring.util;
 
 import com.spring.common.Constant;
-import com.spring.domain.KakaoResultJson;
+import com.spring.model.KakaoResultJson;
 
 import retrofit2.Call;
 import retrofit2.http.Field;

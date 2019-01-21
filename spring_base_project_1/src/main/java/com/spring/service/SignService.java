@@ -2,8 +2,8 @@ package com.spring.service;
 
 import java.util.Date;
 
-import com.spring.domain.User;
-import com.spring.domain.UserSignParam;
+import com.spring.model.User;
+import com.spring.model.UserSignParam;
 
 public interface SignService {
 

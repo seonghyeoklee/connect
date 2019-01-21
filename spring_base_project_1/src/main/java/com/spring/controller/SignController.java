@@ -20,9 +20,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.GsonBuilder;
 import com.spring.common.Constant;
-import com.spring.domain.GoogleResultJson;
-import com.spring.domain.User;
-import com.spring.domain.UserSignParam;
+import com.spring.model.GoogleResultJson;
+import com.spring.model.User;
+import com.spring.model.UserSignParam;
 import com.spring.resolver.SessionLogin;
 import com.spring.service.SignService;
 import com.spring.util.GoogleAuth;

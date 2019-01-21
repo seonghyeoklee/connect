@@ -1,6 +1,6 @@
 package com.spring.mapper;
 
-import com.spring.domain.UserAuth;
+import com.spring.model.UserAuth;
 
 public interface UserAuthMapper {
 

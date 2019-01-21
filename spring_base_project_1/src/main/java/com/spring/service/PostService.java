@@ -3,7 +3,7 @@ package com.spring.service;
 import java.util.List;
 import java.util.Map;
 
-import com.spring.domain.Post;
+import com.spring.model.Post;
 
 public interface PostService {
 

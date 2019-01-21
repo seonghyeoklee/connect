@@ -2,8 +2,8 @@ package com.spring.util;
 
 import java.io.IOException;
 
-import com.spring.domain.KakaoResultJson;
 import com.spring.exception.NotFoundKakaoUserException;
+import com.spring.model.KakaoResultJson;
 
 public class Kakao {
 
