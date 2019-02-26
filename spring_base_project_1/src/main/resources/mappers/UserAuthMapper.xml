@@ -4,14 +4,14 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.mapper.UserAuthMapper">
 
-	<resultMap type="com.spring.domain.UserAuth" id="userAuthResultMap">
+	<resultMap type="com.spring.model.UserAuth" id="userAuthResultMap">
 		<id property="idx" column="idx"/>
 		<result property="identification" column="identification"/>
 		<result property="credential" column="credential"/>
 		<result property="type" column="type"/>
 		<result property="state" column="state"/>
 		
-		<association property="user" javaType="com.spring.domain.User">
+		<association property="user" javaType="com.spring.model.User">
 			<result property="name" column="name"/>
 		</association>
 	</resultMap>

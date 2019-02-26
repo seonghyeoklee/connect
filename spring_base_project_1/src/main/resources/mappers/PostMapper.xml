@@ -4,7 +4,7 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.mapper.PostMapper">
 
-	<resultMap type="com.spring.domain.Post" id="postResultMap">
+	<resultMap type="com.spring.model.Post" id="postResultMap">
 		<id property="idx" column="idx"/>
 		<result property="authorIdx" column="author_idx"/>
 		<result property="title" column="title"/>
@@ -13,12 +13,12 @@
 		<result property="createdAt" column="created_at"/>
 		<result property="updatedAt" column="updated_at"/>
 		
-		<association property="author" javaType="com.spring.domain.User">
+		<association property="author" javaType="com.spring.model.User">
 			<id property="idx" column="idx"/>
 			<result property="name" column="name"/>
 		</association>
 		
-		<association property="postLike" javaType="com.spring.domain.PostLike">
+		<association property="postLike" javaType="com.spring.model.PostLike">
 			<result property="userIdx" column="user_idx"/>
 			<result property="likeCount" column="like_count"/>
 		</association>
@@ -49,7 +49,7 @@
 		LIMIT #{offset}, #{count}
 	</select>
 	
-	<insert id="insertPost" parameterType="com.spring.domain.Post">
+	<insert id="insertPost" parameterType="com.spring.model.Post">
 		INSERT INTO post (
 			author_idx,
 			title,

@@ -14,7 +14,7 @@
 		)
 	</insert>
 	
-	<select id="selectUser" resultType="com.spring.domain.User">
+	<select id="selectUser" resultType="com.spring.model.User">
 		select
 			idx,
 			name
@@ -30,7 +30,7 @@
 		where name = #{name}
 	</update>
 	
-	<select id="checkUserWithSessionKey" resultType="com.spring.domain.User">
+	<select id="checkUserWithSessionKey" resultType="com.spring.model.User">
 		select * from user
 		where sessionkey = #{sessionkey}
 		and sessionlimit > now()
